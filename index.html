@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Apple Watch Ultra — Beyond The Horizon</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <!-- Preloader -->
+    <div id="loader" class="loader">
+      <div class="loader-content">
+        <div class="loader-badge">EXPLORATION TELEMETRY</div>
+        <div class="loader-watch-ring">
+          <svg viewBox="0 0 100 100" class="progress-ring">
+            <circle class="ring-bg" cx="50" cy="50" r="42" />
+            <circle id="loaderRing" class="ring-progress" cx="50" cy="50" r="42" />
+          </svg>
+          <div class="loader-val" id="loaderPercent">0%</div>
+        </div>
+        <div class="loader-title">APPLE WATCH ULTRA</div>
+        <div class="loader-status" id="loaderStatus">INITIALIZING SYSTEM...</div>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <header class="site-header">
+      <div class="header-inner">
+        <a href="#hero" class="brand-logo">
+          <span class="logo-icon"></span>
+          <span class="logo-text">WATCH <span class="ultra-tag">ULTRA</span></span>
+        </a>
+        <nav class="nav-links">
+          <a href="#reveal" class="nav-link">Design</a>
+          <a href="#display" class="nav-link">Display</a>
+          <a href="#materials" class="nav-link">Build</a>
+          <a href="#strap" class="nav-link">Strap</a>
+          <a href="#specs" class="nav-link">Specs</a>
+        </nav>
+        <div class="header-actions">
+          <button class="hud-toggle-btn active" id="hotspotsToggle" aria-label="Toggle hardware inspection hotspots">
+            <span class="hud-toggle-dot"></span>
+            <span>HOTSPOTS</span>
+          </button>
+          <button class="sound-toggle" id="soundToggle" aria-label="Toggle ambient pulse">
+            <span class="sound-dot"></span>
+            <span class="sound-label">AUDIO</span>
+          </button>
+          <a href="#outro" class="cta-nav-btn">PRE-ORDER</a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Canvas Container (Pinned 3D Viewport) -->
+    <div id="webgl-container" class="webgl-container">
+      <canvas id="webgl-canvas"></canvas>
+      <div class="canvas-vignette"></div>
+      <div class="canvas-grid-lines"></div>
+
+      <!-- Floating Compass / Telemetry HUD -->
+      <div class="telemetry-hud" id="telemetryHud">
+        <div class="hud-item hud-coords">
+          <span class="hud-label">COORDS</span>
+          <span class="hud-val" id="hudCoords">37°20'08"N 122°00'32"W</span>
+        </div>
+        <div class="hud-item hud-elev">
+          <span class="hud-label">ELEVATION</span>
+          <span class="hud-val" id="hudElevation">4,810 M</span>
+        </div>
+        <div class="hud-item hud-temp">
+          <span class="hud-label">CASE TEMP</span>
+          <span class="hud-val">-18°C</span>
+        </div>
+        <div class="hud-item hud-depth">
+          <span class="hud-label">DEPTH RATING</span>
+          <span class="hud-val">100M</span>
+        </div>
+      </div>
+
+      <!-- 3D Interactive Hotspots Overlay -->
+      <div class="hotspots-layer" id="hotspotsLayer">
+        <!-- Hotspot 1: Action Button -->
+        <div class="hotspot-pin" id="pinActionButton" data-hotspot="action-button">
+          <div class="pin-marker">
+            <span class="pin-pulse"></span>
+            <span class="pin-dot"></span>
+          </div>
+          <div class="pin-card">
+            <span class="pin-tag">PRECISION HARDWARE</span>
+            <div class="pin-title">Action Button</div>
+            <p class="pin-desc">Customizable physical trigger in International Orange. Instantly start workouts, mark compass waypoints, or sound the siren.</p>
+          </div>
+        </div>
+
+        <!-- Hotspot 2: Digital Crown -->
+        <div class="hotspot-pin" id="pinDigitalCrown" data-hotspot="digital-crown">
+          <div class="pin-marker">
+            <span class="pin-pulse"></span>
+            <span class="pin-dot"></span>
+          </div>
+          <div class="pin-card">
+            <span class="pin-tag">TACTILE FEEDBACK</span>
+            <div class="pin-title">Digital Crown &amp; Guard</div>
+            <p class="pin-desc">Machined titanium side guard protects oversized ridges designed for gloved sub-zero operation.</p>
+          </div>
+        </div>
+
+        <!-- Hotspot 3: Sapphire Display -->
+        <div class="hotspot-pin" id="pinDisplay" data-hotspot="retina-display">
+          <div class="pin-marker">
+            <span class="pin-pulse"></span>
+            <span class="pin-dot"></span>
+          </div>
+          <div class="pin-card">
+            <span class="pin-tag">2000 NITS PEAK</span>
+            <div class="pin-title">Flat Sapphire Crystal</div>
+            <p class="pin-desc">Always-On Retina display protected by an elevated aerospace titanium bezel against rock-face impacts.</p>
+          </div>
+        </div>
+
+        <!-- Hotspot 4: Dual Siren & Speaker -->
+        <div class="hotspot-pin" id="pinSiren" data-hotspot="emergency-siren">
+          <div class="pin-marker">
+            <span class="pin-pulse"></span>
+            <span class="pin-dot"></span>
+          </div>
+          <div class="pin-card">
+            <span class="pin-tag">ACOUSTIC BEACON</span>
+            <div class="pin-title">86dB Emergency Siren</div>
+            <p class="pin-desc">High-pitch dual speaker resonance audible up to 600 feet (180m) across mountain canyons.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Scroll Track -->
+    <main id="scroll-content" class="scroll-content">
+
+      <!-- Hero Section -->
+      <section id="hero" class="scene-section hero-section" data-section="hero">
+        <div class="section-content">
+          <div class="hero-top-badge">
+            <span class="pill-pulse"></span>
+            <span>EXPEDITION GRADE HARDWARE</span>
+          </div>
+          <h1 class="hero-title">
+            <span class="hero-title-sub">ENGINEERED FOR THE</span>
+            <span class="hero-title-main">EXTREME.</span>
+          </h1>
+          <p class="hero-subtext">
+            49mm aerospace titanium case. Dual-frequency precision L1 &amp; L5 GPS.
+            Up to 36 hours battery life. Built to withstand whatever the wild demands.
+          </p>
+          <div class="hero-actions">
+            <a href="#reveal" class="btn-primary">EXPLORE ARCHITECTURE</a>
+            <div class="scroll-cue">
+              <span class="scroll-mouse"><span class="wheel"></span></span>
+              <span class="scroll-text">SCROLL TO DISCOVER</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 1: Reveal -->
+      <section id="reveal" class="scene-section reveal-section" data-section="reveal">
+        <div class="section-content left-align">
+          <span class="section-num">01 / ARCHITECTURE</span>
+          <h2 class="section-heading">Form Follows<br/><span class="text-gradient">Endurance.</span></h2>
+          <p class="section-body">
+            Crafted from aerospace-grade titanium, every surface balances structural mass with weight reduction.
+            Raised bezel walls shield the flat sapphire crystal face from high-impact edge collisions.
+          </p>
+          <div class="tech-metrics">
+            <div class="metric-card">
+              <span class="metric-val">49mm</span>
+              <span class="metric-label">Titanium Case</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-val">61.3g</span>
+              <span class="metric-label">Featherweight Toughness</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-val">MIL-STD</span>
+              <span class="metric-label">810H Tested</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 2: Display -->
+      <section id="display" class="scene-section display-section" data-section="display">
+        <div class="section-content right-align">
+          <span class="section-num">02 / OPTICS</span>
+          <h2 class="section-heading">2000 Nits.<br/><span class="text-orange">Piercing Clarity.</span></h2>
+          <p class="section-body">
+            Twice as bright as any prior smartwatch display. The flat sapphire crystal protects an edge-to-edge
+            Always-On Retina OLED that cuts through direct noon desert sunlight or blowing alpine blizzard conditions.
+          </p>
+          <div class="display-feature-list">
+            <div class="feature-item">
+              <div class="feature-icon">☀</div>
+              <div class="feature-detail">
+                <h4>2000 Nits Peak Luminance</h4>
+                <p>Ultra-low 1-nit night mode preserves dark-adapted vision with a twist of the Digital Crown.</p>
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-icon">🧭</div>
+              <div class="feature-detail">
+                <h4>Wayfinder Dial</h4>
+                <p>Features a live directional compass ring that can be toggled to a red night-vision mode in real time.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 3: Materials & Action Button -->
+      <section id="materials" class="scene-section materials-section" data-section="materials">
+        <div class="section-content left-align">
+          <span class="section-num">03 / CONTROL</span>
+          <h2 class="section-heading">The Action Button.<br/><span class="text-orange">Instant Readiness.</span></h2>
+          <p class="section-body">
+            High-contrast International Orange for instant identification. One physical press initiates multisport
+            transitions, sets compass waypoints, or triggers the 86dB rescue siren audible up to 180 meters away.
+          </p>
+          <div class="spec-callouts">
+            <div class="callout-card">
+              <span class="callout-tag">TACTILE FEEDBACK</span>
+              <h3>Digital Crown &amp; Guard</h3>
+              <p>Oversized ridges calibrated for operation while wearing thick mountaineering gloves or wet diving suits.</p>
+            </div>
+            <div class="callout-card">
+              <span class="callout-tag">SAFETY FIRST</span>
+              <h3>86dB Emergency Siren</h3>
+              <p>Emits two alternating high-pitch acoustic distress patterns audible across rugged canyon terrain.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 4: Strap & Colors -->
+      <section id="strap" class="scene-section strap-section" data-section="strap">
+        <div class="section-content center-align">
+          <span class="section-num">04 / ADAPTATION</span>
+          <h2 class="section-heading">Alpine Loop.<br/><span class="text-gradient">Engineered Tension.</span></h2>
+          <p class="section-body max-w-600">
+            Two textile layers seamlessly woven into one continuous piece without stitching. High-strength yarn
+            reinforces top loops where the corrosion-resistant titanium G-hook slides securely into place.
+          </p>
+          
+          <!-- Strap Color Palette Switcher -->
+          <div class="strap-palette-selector">
+            <span class="selector-title">SELECT STRAP COLORWAY:</span>
+            <div class="palette-options" id="strapColorPicker">
+              <button class="color-chip active" data-color="orange" data-hex="#e75a21" aria-label="Alpine Orange">
+                <span class="chip-swatch" style="background: #e75a21;"></span>
+                <span class="chip-name">Alpine Orange</span>
+              </button>
+              <button class="color-chip" data-color="starlight" data-hex="#d8d3c5" aria-label="Starlight Dune">
+                <span class="chip-swatch" style="background: #d8d3c5;"></span>
+                <span class="chip-name">Starlight Dune</span>
+              </button>
+              <button class="color-chip" data-color="midnight" data-hex="#1e222a" aria-label="Midnight Slate">
+                <span class="chip-swatch" style="background: #1e222a;"></span>
+                <span class="chip-name">Midnight Slate</span>
+              </button>
+              <button class="color-chip" data-color="ocean" data-hex="#1e3a5f" aria-label="Abyss Navy">
+                <span class="chip-swatch" style="background: #1e3a5f;"></span>
+                <span class="chip-name">Abyss Navy</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 5: Specs Grid -->
+      <section id="specs" class="scene-section specs-section" data-section="specs">
+        <div class="section-content wide-align">
+          <span class="section-num">05 / TELEMETRY SHEET</span>
+          <h2 class="section-heading">Uncompromising<br/><span class="text-gradient">Performance.</span></h2>
+          
+          <div class="specs-grid">
+            <div class="spec-box">
+              <div class="spec-header">
+                <span class="spec-icon">⚡</span>
+                <span class="spec-title">BATTERY LIFE</span>
+              </div>
+              <div class="spec-figure">36<span class="unit">HRS</span></div>
+              <p class="spec-desc">Normal battery life. Up to 72 hours in Low Power Mode for multi-day backcountry treks.</p>
+            </div>
+
+            <div class="spec-box">
+              <div class="spec-header">
+                <span class="spec-icon">🛰</span>
+                <span class="spec-title">PRECISION GPS</span>
+              </div>
+              <div class="spec-figure">L1+L5</div>
+              <p class="spec-desc">Dual-frequency positioning algorithms deliver pinpoint routing through dense city high-rises and deep tree canopies.</p>
+            </div>
+
+            <div class="spec-box">
+              <div class="spec-header">
+                <span class="spec-icon">🌊</span>
+                <span class="spec-title">OCEAN &amp; DIVE</span>
+              </div>
+              <div class="spec-figure">100<span class="unit">M</span></div>
+              <p class="spec-desc">EN13319 certified depth gauge and water temperature sensor. Recreational scuba dive ready to 40 meters.</p>
+            </div>
+
+            <div class="spec-box">
+              <div class="spec-header">
+                <span class="spec-icon">❄</span>
+                <span class="spec-title">TEMPERATURE ENVELOPE</span>
+              </div>
+              <div class="spec-figure">-20°<span class="unit">to 55°C</span></div>
+              <p class="spec-desc">From sub-zero polar summit ascents to scorching desert dune crossings.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Outro / CTA -->
+      <section id="outro" class="scene-section outro-section" data-section="outro">
+        <div class="section-content center-align">
+          <div class="outro-kicker">ADVENTURE CALLS</div>
+          <h2 class="outro-heading">Beyond The Horizon.</h2>
+          <p class="outro-sub">
+            Whether charting virgin peaks, diving coral reefs, or training for an ultra-marathon —
+            the ultimate tool of human endurance is ready.
+          </p>
+
+          <div class="outro-card">
+            <div class="outro-pricing">
+              <span class="price-currency">$</span>
+              <span class="price-number">799</span>
+              <span class="price-terms">USD or $66.58/mo. for 12 mo.</span>
+            </div>
+            <div class="outro-buttons">
+              <a href="javascript:void(0)" class="btn-primary btn-large" id="buyBtn">PRE-ORDER NOW</a>
+              <a href="javascript:void(0)" class="btn-secondary btn-large" id="arBtn">VIEW IN 360°</a>
+            </div>
+            <div class="order-guarantee">
+              <span>✓ Free expedition shipping</span>
+              <span>✓ 14-day return window</span>
+              <span>✓ 2-year AppleCare+ available</span>
+            </div>
+          </div>
+
+          <footer class="site-footer">
+            <p class="attribution">
+              3D Model: <a href="https://sketchfab.com/3d-models/apple-watch-ultra-orange-4656191de2e94767a8c16003fca1f268" target="_blank" rel="noopener noreferrer">"Apple Watch Ultra - Orange"</a> by <strong>alboxer2000_</strong> on Sketchfab (licensed under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY 4.0</a>).
+            </p>
+            <p class="copyright">
+              Designed as a showcase experience with Three.js, GSAP ScrollTrigger, and Lenis.
+            </p>
+          </footer>
+        </div>
+      </section>
+
+    </main>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
